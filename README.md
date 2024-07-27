@@ -1,66 +1,216 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+stripe k liay:
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+// Mustajab Code
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+// use Illuminate\Http\Request;
+// use Stripe\PaymentIntent;
+// use Stripe\Stripe;
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+// Route::post('/purchase', function (Request $request) {
+//     try {
+//         Stripe::setApiKey(config('services.stripe.secret'));
+//         $user = User::whereId(Auth::Id())->first();
+//         $paymentMethod = $request->input('payment_method');
+//         // dd($paymentMethod);
+//         $user->updateDefaultPaymentMethod($paymentMethod);
+//         $user->updateDefaultPaymentMethodFromStripe();
+//         // $data = $user->charge(1000, $paymentMethod);
+//         return response()->json(['success' => true]);
+//     } catch (Exception $e) {
+//         return response()->json(['error' => $e->getMessage()], 500);
+//     }
+// })->name('purchase');
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+// Route::get('/payment', function () {
+//     $user = User::whereId(Auth::Id())->first();
+//     $setupIntent = $user->createSetupIntent();
 
-## Laravel Sponsors
+//     return view('stripe', [
+//         'intent' => $setupIntent
+//     ]);
+// })->name('payment');
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+// Route::get('/payment/success', function () {
+//     $user = User::whereId(Auth::Id())->first();
+//     $paymentMethod = $user->defaultPaymentMethod();
+//     // $data = $user->charge(1000, $paymentMethod->id);
+//     $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
+//     $stripe->charges->create([
+//         'amount' => 1200,
+//         'currency' => 'usd',
+//         'source' => 'tok_visa',
+//     ]);
 
-### Premium Partners
+//     return 'success';
+// })->name('payment.success');
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
+// sir hasnain code
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+// Route::get('purchase', function () {
+//     Stripe::setApiKey(env('STRIPE_SECRET'));
+//     $intent = PaymentIntent::create([
+//         'amount' => intval(50 * 100),
+//         'currency' => 'usd',
+//         // 'metadata' => ['order_id' => $order_id],
+//     ]);
+//     return view('stripe', ['clientSecret' => $intent]);
+//     // return response()->json(['clientSecret' => $intent->client_secret]);
+// })->name('purchase');
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@extends('layouts.main')
+
+@section('content')
+
+{{-- 
+
+    Mustajab Code
+
+    <div>
+        <input id="card-holder-name" type="text">
+
+        <!-- Stripe Elements Placeholder -->
+        <div id="card-element"></div>
+
+        <button id="card-button" data-secret="{{ $intent->client_secret }}">
+            Update Payment Method
+        </button>
+    </div>
+
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script>
+        const stripe = Stripe("{{ config('services.stripe.key') }}");
+
+        const elements = stripe.elements();
+        const cardElement = elements.create('card');
+
+        cardElement.mount('#card-element');
+
+        const cardHolderName = document.getElementById('card-holder-name');
+        const cardButton = document.getElementById('card-button');
+        const clientSecret = cardButton.dataset.secret;
+
+        cardButton.addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            const {
+                setupIntent,
+                error
+            } = await stripe.confirmCardSetup(
+                clientSecret, {
+                    payment_method: {
+                        card: cardElement,
+                        billing_details: {
+                            name: cardHolderName.value
+                        }
+                    },
+                    
+                }
+            );
+
+            if (error) {
+                alert(error.message);
+            } else {
+                const paymentMethod = setupIntent.payment_method;
+
+                const response = await fetch("{{ route('purchase') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({
+                        payment_method: paymentMethod
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    window.location.href = "{{ route('payment.success') }}";
+                } else {
+                    alert("Payment failed: " + result.error);
+                }
+            }
+        });
+    </script> --}}
+
+
+    {{-- // sir hasnain code --}}
+
+
+    {{-- <form action="">
+        <div id="card-element">
+            <!-- A Stripe Element will be inserted here. -->
+        </div>
+        <input type="text" name="" id="cardholder-name">
+        <!-- Used to display form errors. -->
+        <div id="card-errors" role="alert"></div>
+        <div id="card-message"></div>
+        <button id="card-button" type="button" data-secret="{{ $clientSecret }}">
+            Process Payment
+        </button>
+    </form>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        var stripe = Stripe('{{ env('STRIPE_KEY') }}');
+
+        var paymentIntent;
+        paymentIntent = @json($clientSecret);
+
+
+        var elements = stripe.elements();
+        var cardElement = elements.create('card');
+        cardElement.mount('#card-element');
+
+        var cardholderName = document.getElementById('cardholder-name');
+        var cardButton = document.getElementById('card-button');
+        var cardMessage = document.getElementById('card-message'); // for testing (to remove)
+
+        cardButton.addEventListener('click', function(ev) {
+            ev.preventDefault();
+            cardMessage.textContent = "Calling handleCardPayment..."; // for testing (to remove)
+            stripe.handleCardPayment(
+                paymentIntent.client_secret, cardElement, {
+                    payment_method_data: {
+                        billing_details: {
+                            name: cardholderName.value
+                        }
+                    }
+                }
+            ).then(function(result) {
+                cardMessage.textContent = JSON.stringify(result, null, 2); // for testing (to remove)
+                if (result.error) {
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {}
+            });
+        });
+    </script> --}}
+@endsection
